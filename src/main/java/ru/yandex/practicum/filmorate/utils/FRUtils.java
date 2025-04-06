@@ -2,8 +2,6 @@ package ru.yandex.practicum.filmorate.utils;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 public class FRUtils {
