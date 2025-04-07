@@ -9,22 +9,19 @@ import lombok.Data;
 
 import java.time.LocalDate;
 
-/**
- * User.
- */
 @Data
 public class User {
-    Integer id;
+    private Integer id;
     @NotEmpty
     @Email
-    String email;
+    private String email;
     @NotEmpty
     @Pattern(regexp = "^\\S+$")
-    String login;
-    String name;
+    private String login;
+    private String name;
     @NotNull
     @JsonFormat
-    LocalDate birthday;
+    private LocalDate birthday;
 
     public User(Integer id, String email, String login, String name, LocalDate birthday) {
         this.id = id;

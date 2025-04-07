@@ -23,13 +23,13 @@ public class UserController {
     }
 
     @GetMapping
-    private ArrayList<User> getUsersList() {
+    public ArrayList<User> getUsersList() {
         log.info("Запрос списка пользователей");
         return new ArrayList<>(usersList.values());
     }
 
     @PostMapping
-    private User postUser(@Valid @RequestBody User user) {
+    public User postUser(@Valid @RequestBody User user) {
         log.info("Добавление нового пользователя: {}", user.getLogin());
         user.setId(getUserId());
 
@@ -65,7 +65,7 @@ public class UserController {
     }
 
     @PutMapping
-    private User putUser(@Valid @RequestBody User user) {
+    public User putUser(@Valid @RequestBody User user) {
         log.info("Обновление пользователя: {}", user.getLogin());
         if (user.getId() == null) {
             log.error("Не указан id обновляемого пользователя");

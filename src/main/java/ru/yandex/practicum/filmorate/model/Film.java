@@ -9,22 +9,19 @@ import lombok.Data;
 
 import java.time.LocalDate;
 
-/**
- * Film.
- */
 @Data
 public class Film {
-   Integer id;
+   private Integer id;
    @NotEmpty
-   String name;
+   private String name;
    @Size(max = 200)
-   String description;
+   private String description;
    @NotNull
    @JsonFormat
-   LocalDate releaseDate;
+   private LocalDate releaseDate;
    @NotNull
    @Min(1)
-   Integer duration;
+   private Integer duration;
 
    public Film(Integer id, String name, String description, LocalDate releaseDate, Integer duration) {
       this.id = id;

@@ -24,13 +24,13 @@ public class FilmController {
     }
 
     @GetMapping
-    private ArrayList<Film> getFilmsList() {
+    public ArrayList<Film> getFilmsList() {
         log.info("Запрос списка фильмов");
         return new ArrayList<>(filmsList.values());
     }
 
     @PostMapping
-    private Film postFilm(@Valid @RequestBody Film film) {
+    public Film postFilm(@Valid @RequestBody Film film) {
         log.info("Запись нового фильма: {}", film.getName());
         film.setId(getFilmId());
 
@@ -63,7 +63,7 @@ public class FilmController {
     }
 
     @PutMapping
-    private Film putFilm(@Valid @RequestBody Film film) {
+    public Film putFilm(@Valid @RequestBody Film film) {
         log.info("Обновление фильма: {}", film.getName());
         if (film.getId() == null) {
             log.error("Не указан id обновляемого фильма");
