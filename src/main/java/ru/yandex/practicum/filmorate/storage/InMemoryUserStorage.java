@@ -81,7 +81,7 @@ public class InMemoryUserStorage implements UserStorage {
     @Override
     public User getUserById(int userId) {
         log.debug("Запрос пользователя по id={}", userId);
-        if (!usersList.containsKey(  userId)) {
+        if (!usersList.containsKey(userId)) {
             log.error("В текущем списке не найден пользователь с id = {}", userId);
             throw new NotFoundException("В текущем списке не найден пользователь с id = " + userId);
         }

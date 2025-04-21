@@ -56,7 +56,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
-    public Film updateExistingFilm (Film updFilm) {
+    public Film updateExistingFilm(Film updFilm) {
         log.debug("Обновление фильма: {}", updFilm);
         if (updFilm.getId() == null) {
             log.error("Не указан id обновляемого фильма");
