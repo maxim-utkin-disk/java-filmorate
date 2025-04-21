@@ -32,7 +32,7 @@ public class FilmService {
         return filmStorage.getFilmsList();
     }
 
-    Comparator<Film> compareFilmsByLikesCount = Comparator.comparing(f -> f.getLikesList().size());
+    private Comparator<Film> compareFilmsByLikesCount = Comparator.comparing(f -> f.getLikesList().size());
 
     public List<Film> getTopPopularFilms(Integer count) {
         log.debug("Вызван метод getTopPopularFilms, count={}", count);

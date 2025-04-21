@@ -26,7 +26,7 @@ public class Film {
    @Min(1)
    private Integer duration;
    @EqualsAndHashCode.Exclude
-   Set<Integer> likesList = new HashSet<>();
+   private Set<Integer> likesList = new HashSet<>();
 
    public Film(Integer id, String name, String description, LocalDate releaseDate, Integer duration) {
       this.id = id;
