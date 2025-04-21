@@ -43,7 +43,9 @@ public class UserService {
         Set<Integer> frndLst = userStorage.getUserById(userId).getFriendsList();
         return
                 frndLst.stream()
-                .map(id -> {return userStorage.getUserById(id);})
+                .map(id -> {
+                        return userStorage.getUserById(id);
+                        })
                 .collect(Collectors.toList());
     }
 
