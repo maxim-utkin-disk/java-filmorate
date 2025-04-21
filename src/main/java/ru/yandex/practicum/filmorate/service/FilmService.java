@@ -52,7 +52,7 @@ public class FilmService {
         return filmStorage.updateExistingFilm(film);
     }
 
-    public void addLike (int filmId, int userId) {
+    public void addLike(int filmId, int userId) {
         log.debug("Для фильма id={} добавляем лайк от юзера id={}", filmId, userId);
         filmStorage.getFilmById(filmId).addLike(userStorage.getUserById(userId));
     }
