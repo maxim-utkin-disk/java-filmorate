@@ -38,6 +38,20 @@ public class Film {
       this.duration = duration;
    }
 
+   public Film(){};
+
+    public Film(Integer id, String name, String description, LocalDate releaseDate, Integer duration, Integer ratingId, String ratingName ) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.releaseDate = releaseDate;
+        this.duration = duration;
+        FilmRating fr = new FilmRating();
+        fr.setId(ratingId);
+        fr.setName(ratingName);
+        this.mpa = fr;
+    }
+
    public void addLike(User user) {
       likesList.add(user.getId());
    }

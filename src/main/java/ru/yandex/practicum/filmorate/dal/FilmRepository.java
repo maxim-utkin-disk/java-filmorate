@@ -12,8 +12,15 @@ import java.util.Optional;
 
 public class FilmRepository extends BaseRepository<Film>{
 
-    private static final String FIND_ALL_QUERY = "select film_id, film_name, description, release_date, duration, rating_id from films";
-    private static final String FIND_BY_ID_QUERY = "select film_id, film_name, description, release_date, duration, rating_id from films where film_id = ?";
+    private static final String FIND_ALL_QUERY =
+            "select f.film_id, f.film_name, f.description, f.release_date, f.duration, f.rating_id,  mfr.rating_name\n" +
+                    "from films f left join mpa_film_ratings mfr \n" +
+                    " on f.rating_id = mfr.rating_id";
+    private static final String FIND_BY_ID_QUERY = //"select film_id, film_name, description, release_date, duration, rating_id from films where film_id = ?";
+            "select f.film_id, f.film_name, f.description, f.release_date, f.duration, f.rating_id,  mfr.rating_name\n" +
+                    "from films f left join mpa_film_ratings mfr \n" +
+                    " on f.rating_id = mfr.rating_id \n" +
+                    " where f.film_id = ?";
     private static final String INSERT_QUERY = "insert into films(film_name, description, release_date, duration, rating_id) values(?, ?, ?, ?, ?)";
     private static final String UPDATE_QUERY = "update films f set film_name = ?, description = ?, release_date = ?, duration = ?, rating_id = ?  where f.film_id = ?";
     private static final String CREATE_FILM_GENRE_QUERY = "insert into films_genres(film_id, genre_id) values(?, ?)";
