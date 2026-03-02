@@ -64,7 +64,7 @@ public class FilmService {
             throw new NotFoundException(e.getMessage());
         }
 
-        for(FilmGenre fgenre : film.getGenres()) {
+        for (FilmGenre fgenre : film.getGenres()) {
             try {
                 FilmGenre fg = filmGenreStorage.getFilmGenreById(fgenre.getId());
             } catch (Exception e) {
