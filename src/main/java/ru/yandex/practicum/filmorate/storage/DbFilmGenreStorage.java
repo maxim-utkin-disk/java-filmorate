@@ -26,7 +26,7 @@ public class DbFilmGenreStorage extends FilmGenreRepository implements FilmGenre
     }
 
     public FilmGenre getFilmGenreById(Integer filmGenreId) {
-        log.debug("Запрос из БД жанра фильма по id={}", filmGenreId);
+        log.debug("Запрос из БД жанра фильма по id = {}", filmGenreId);
         Optional<FilmGenre> ofg = findById(filmGenreId);
         if (ofg.isPresent()) {
             return ofg.get();
