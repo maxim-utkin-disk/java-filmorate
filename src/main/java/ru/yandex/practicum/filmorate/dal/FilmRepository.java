@@ -10,16 +10,16 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
-public class FilmRepository extends BaseRepository<Film>{
+public class FilmRepository extends BaseRepository<Film> {
 
     private static final String FIND_ALL_QUERY =
-            "select f.film_id, f.film_name, f.description, f.release_date, f.duration, f.rating_id,  mfr.rating_name\n" +
-                    "from films f left join mpa_film_ratings mfr \n" +
+            "select f.film_id, f.film_name, f.description, f.release_date, f.duration, f.rating_id,  mfr.rating_name " +
+                    "from films f left join mpa_film_ratings mfr " +
                     " on f.rating_id = mfr.rating_id";
     private static final String FIND_BY_ID_QUERY =
-            "select f.film_id, f.film_name, f.description, f.release_date, f.duration, f.rating_id,  mfr.rating_name\n" +
-                    "from films f left join mpa_film_ratings mfr \n" +
-                    " on f.rating_id = mfr.rating_id \n" +
+            "select f.film_id, f.film_name, f.description, f.release_date, f.duration, f.rating_id,  mfr.rating_name " +
+                    "from films f left join mpa_film_ratings mfr  " +
+                    " on f.rating_id = mfr.rating_id  " +
                     " where f.film_id = ?";
     private static final String INSERT_QUERY = "insert into films(film_name, description, release_date, duration, rating_id) values(?, ?, ?, ?, ?)";
     private static final String UPDATE_QUERY = "update films f set film_name = ?, description = ?, release_date = ?, duration = ?, rating_id = ?  where f.film_id = ?";
@@ -74,7 +74,7 @@ public class FilmRepository extends BaseRepository<Film>{
     }
 
     public void addFilmGenre(Film film) {
-        for(FilmGenre genre : film.getGenres()) {
+        for (FilmGenre genre : film.getGenres()) {
             update(CREATE_FILM_GENRE_QUERY, film.getId(), genre.getId());
         }
     }
