@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class FilmRowMapper implements RowMapper<Film> {
     @Override
     public Film mapRow (ResultSet resultSet, int rowNum) throws SQLException {
-        return new Film(resultSet.getInt("film_id"),
+        return new Film (resultSet.getInt("film_id"),
                 resultSet.getString("film_name"),
                 resultSet.getString("description"),
                 resultSet.getDate("release_date").toLocalDate(),
