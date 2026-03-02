@@ -50,13 +50,13 @@ public class DbUserStorage extends UserRepository implements UserStorage {
         return update(updUser);
     }
 
-    @Override
+    //@Override
     public void addFriend(int userId, int friendUserId) {
         log.debug("Добавление пользователя friendUserId = {} в друзья к пользователю user_id = {}", friendUserId, friendUserId);
         super.addFriend(userId, friendUserId);
     }
 
-    @Override
+    //@Override
     public ArrayList<User> getUserFriendsList(int userId) {
         log.debug("1-Запрос из БД списка всех друзей пользователя");
         return (ArrayList<User>)super.getUserFriendsList(userId);
@@ -67,5 +67,14 @@ public class DbUserStorage extends UserRepository implements UserStorage {
         return (ArrayList<User>)getUserFriendsList(userId);
     }
 
+    public void removeFriend(int userId, int friendUserId) {
+        log.debug("Удаление пользователя friendUserId = {} из друзей к пользователя user_id = {}", friendUserId, userId);
+        super.removeFriend(userId, friendUserId);
+    }
+
+    public ArrayList<User> getCommonFriendsList(int id, int otherId) {
+        log.debug("Выборка общих друзей пользователя user_id = {} и пользователя user_id = {}", id, otherId);
+        return (ArrayList<User>)super.getCommonFriendsList(id, otherId);
+    }
 
 }

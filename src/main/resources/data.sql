@@ -1,21 +1,25 @@
-delete from genres;
-insert into genres(genre_id, genre_name) values(1, 'Комедия');
-insert into genres(genre_id, genre_name) values(2, 'Драма');
-insert into genres(genre_id, genre_name) values(3, 'Мультфильм');
-insert into genres(genre_id, genre_name) values(4, 'Триллер');
-insert into genres(genre_id, genre_name) values(5, 'Документальный');
-insert into genres(genre_id, genre_name) values(6, 'Боевик');
-insert into genres(genre_id, genre_name) values(7, 'Мелодрама');
-insert into genres(genre_id, genre_name) values(8, 'Авторское кино');
+set referential_integrity false;
 
-delete from mpa_film_ratings;
-insert into mpa_film_ratings(rating_id, rating_name) values(1, 'G');
-insert into mpa_film_ratings(rating_id, rating_name) values(2, 'PG');
-insert into mpa_film_ratings(rating_id, rating_name) values(3, 'PG-13');
-insert into mpa_film_ratings(rating_id, rating_name) values(4, 'R');
-insert into mpa_film_ratings(rating_id, rating_name) values(5, 'NC-17');
+truncate table friendships  restart identity;
+truncate table films_likes restart identity;
+truncate table users restart identity;
+truncate table films restart identity;
 
-delete from friendship_states;
-insert into friendship_states(state_id, state_name) values(1, 'рассматривается');
-insert into friendship_states(state_id, state_name) values(2, 'принято');
-insert into friendship_states(state_id, state_name) values(3, 'отказано');
+set referential_integrity true;
+
+merge into genres key(genre_id) values(1, 'Комедия');
+merge into genres key(genre_id) values(2, 'Драма');
+merge into genres key(genre_id) values(3, 'Мультфильм');
+merge into genres key(genre_id) values(4, 'Триллер');
+merge into genres key(genre_id) values(5, 'Документальный');
+merge into genres key(genre_id) values(6, 'Боевик');
+
+merge into mpa_film_ratings key (rating_id) values(1, 'G');
+merge into mpa_film_ratings key (rating_id) values(2, 'PG');
+merge into mpa_film_ratings key (rating_id) values(3, 'PG-13');
+merge into mpa_film_ratings key (rating_id) values(4, 'R');
+merge into mpa_film_ratings key (rating_id) values(5, 'NC-17');
+
+merge into friendship_states key (state_id) values (1, 'рассматривается');
+merge into friendship_states key (state_id) values (2, 'принято');
+merge into friendship_states key (state_id) values (3, 'отказано');

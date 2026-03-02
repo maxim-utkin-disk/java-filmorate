@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public class UserRepository extends BaseRepository<User> {
     private static final String FIND_ALL_QUERY = "select user_id, email, login, user_name, birthday from users";
-    private static final String FIND_BY_ID_QUERY = "select user_id, email, login, user_name, birthday from genres where user_id = ?";
+    private static final String FIND_BY_ID_QUERY = "select user_id, email, login, user_name, birthday from users where user_id = ?";
     private static final String INSERT_QUERY = "insert into users(email, login, user_name, birthday) values (?, ?, ?, ?)";
     private static final String UPDATE_QUERY = "update users set email = ?, login = ?, user_name = ?, birthday = ? where user_id = ?";
     private static final String FRIENDSHIP_ADD_QUERY = "insert into friendships(user1_id, user2_id, state_id) values(?, ?, ?)";
@@ -21,14 +21,25 @@ public class UserRepository extends BaseRepository<User> {
     private static final Integer FRIENDSHIP_ACCEPTED = 2;
     private static final Integer FRIENDSHIP_REFUSED = 3;
     private static final String FRIENDS_PER_USER_QUERY =
-            "select user_id, email, login, user_name, birthday \n" +
-                    "from users u \n" +
-                    "where u.user_id in \n" +
-                    "  (select f1.user2_id from friendships f1 where f1.user1_id = ? and f1.state_id = 2 \n" +
-                    "  union \n" +
-                    "  select f2.user1_id from friendships f2 where f2.USER2_ID = ? and f2.state_id = 2 \n" +
-                    "  )";
+                "select u.user_id, u.email, u.login, u.user_name, u.birthday \n" +
+                "from friendships fs, \n" +
+                "     users u \n" +
+                "where fs.user1_id = ? \n" +
+                "      and fs.state_id = 2 \n" +
+                "      and fs.user2_id = u.user_id";
 
+    private static final String FRIENDSHIP_DEL_QUERY = "delete from friendships fs where fs.user1_id = ? and fs.user2_id = ?";
+    private static final String COMMON_FRIENDS_LIST_QUERY =
+            "select u.user_id, u.email, u.login, u.user_name, u.birthday \n" +
+                    "from friendships f1,\n" +
+                    "\t friendships f2,\n" +
+                    "\t users u\n" +
+                    "where f1.user1_id = ? \n" +
+                    "\tand f1.state_id = 2\n" +
+                    "\tand f2.user1_id = ?\n" +
+                    "\tand f2.state_id = 2\n" +
+                    "\tand f1.user2_id = f2.user2_id\n" +
+                    "\tand u.user_id = f1.user2_id";
 
     public UserRepository(JdbcTemplate jdbc, RowMapper<User> mapper) {
         super(jdbc, mapper);
@@ -70,9 +81,16 @@ public class UserRepository extends BaseRepository<User> {
     }
 
     public List<User> getUserFriendsList(int userId) {
-        return findMany(FRIENDS_PER_USER_QUERY, userId, userId);
+        return findMany(FRIENDS_PER_USER_QUERY, userId);
     }
 
+    public void removeFriend(int userId, int friendUserId) {
+        delete(FRIENDSHIP_DEL_QUERY, userId, friendUserId);
+    }
+
+    public List<User> getCommonFriendsList(int id, int otherId) {
+        return findMany(COMMON_FRIENDS_LIST_QUERY, id, otherId);
+    }
 
 }
 

@@ -25,8 +25,10 @@ public class Film {
    @NotNull
    @Min(1)
    private Integer duration;
+   private FilmRating mpa;
    @EqualsAndHashCode.Exclude
    private Set<Integer> likesList = new HashSet<>();
+   private Set<FilmGenre> genres = new HashSet<>();
 
    public Film(Integer id, String name, String description, LocalDate releaseDate, Integer duration) {
       this.id = id;

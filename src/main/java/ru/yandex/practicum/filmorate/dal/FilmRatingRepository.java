@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.dal;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@Qualifier("dbFilmRatingStorage")
 public class FilmRatingRepository extends BaseRepository<FilmRating> {
     private static final String FIND_ALL_QUERY = "select rating_id, rating_name from mpa_film_ratings";
     private static final String FIND_BY_ID_QUERY = "select rating_id, rating_name from mpa_film_ratings where rating_id = ?";

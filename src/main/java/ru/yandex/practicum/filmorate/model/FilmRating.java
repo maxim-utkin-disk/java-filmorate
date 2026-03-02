@@ -8,9 +8,9 @@ import lombok.EqualsAndHashCode;
 @Data
 public class FilmRating {
     @EqualsAndHashCode.Include
-    private Integer ratingId;
+    private Integer id;
     @NotNull
     @NotBlank
-    private String ratingName;
+    private String name;
 }
 

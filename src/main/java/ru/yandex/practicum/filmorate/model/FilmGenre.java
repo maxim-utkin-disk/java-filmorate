@@ -8,8 +8,8 @@ import lombok.EqualsAndHashCode;
 @Data
 public class FilmGenre {
     @EqualsAndHashCode.Include
-    private Integer genreId;
+    private Integer id;
     @NotNull
     @NotBlank
-    private String genreName;
+    private String name;
 }

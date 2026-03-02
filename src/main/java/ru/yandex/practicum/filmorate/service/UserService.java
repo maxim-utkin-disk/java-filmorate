@@ -40,16 +40,16 @@ public class UserService {
 
     public List<User> getAllFriendsPerUser(int userId) {
         log.debug("Запрос списка друзей пользователя id={}", userId);
+        User u = getUserById(userId);
         return userStorage.getUserFriendsList(userId);
     }
 
-    /*public void removeFriend(int userId, int friendUserId) {
+    public void removeFriend(int userId, int friendUserId) {
         log.debug("Удаление друга friendId={} у пользователя userId={}", friendUserId, userId);
-        User user = userStorage.getUserById(userId);
-        User friend = userStorage.getUserById(friendUserId);
-        user.removeFriend(friendUserId);
-        friend.removeFriend(userId);
-    }*/
+        User u = getUserById(userId);
+        User f = getUserById(friendUserId);
+        userStorage.removeFriend(userId, friendUserId);
+    }
 
     public void addFriend(int userId, int friendUserId) {
         log.debug("Добавление пользователя friendId={} в друзья к пользователю userId={}", friendUserId, userId);
@@ -57,15 +57,14 @@ public class UserService {
             log.error("Нельзя добавиться в друзья к самому себе! userId={}", userId);
             throw new ValidationException("Нельзя добавиться в друзья к самому себе! userId=" + userId);
         }
+        User u1 = getUserById(userId);
+        User u2 = getUserById(friendUserId);
         userStorage.addFriend(userId, friendUserId);
     }
 
-    /*public ArrayList<User> getCommonFriendsList(int userId1st, int userId2nd) {
-        log.debug("Запрос списка общих друзей для пользователей id={} и id={}", userId1st, userId2nd);
-        ArrayList<User> friendsList1st = new ArrayList<>(this.getAllFriendsPerUser(userId1st));
-        ArrayList<User> friendsList2nd = new ArrayList<>(this.getAllFriendsPerUser(userId2nd));
-        friendsList1st.retainAll(friendsList2nd);
-        return friendsList1st;
-    }*/
+    public ArrayList<User> getCommonFriendsList(int id, int otherId) {
+        log.debug("Запрос списка общих друзей для пользователей id={} и id={}", id, otherId);
+        return userStorage.getCommonFriendsList(id, otherId);
+    }
 
 }

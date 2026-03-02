@@ -5,12 +5,14 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.utils.FRUtils;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -86,4 +88,12 @@ public class InMemoryFilmStorage implements FilmStorage {
         log.debug("Запрос полного списка фильмов");
         return new ArrayList<>(filmsList.values());
     }
+
+    public List<Film> getTopPopularFilms(Integer count) {return null;}
+
+    @Override
+    public void addLikeToFilm(User user, Film film) {}
+
+    @Override
+    public void removeLikeFromFilm(User user, Film film) {}
 }
