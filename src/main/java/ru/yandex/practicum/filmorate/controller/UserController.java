@@ -7,7 +7,6 @@ import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,29 +31,29 @@ public class UserController {
         return userService.getAllFriendsPerUser(id);
     }
 
-    @GetMapping("/{id}/friends/common/{otherId}")
+    /*@GetMapping("/{id}/friends/common/{otherId}")
     public ArrayList<User> getCommonFriendsList(@PathVariable int id, @PathVariable int otherId) {
         return userService.getCommonFriendsList(id, otherId);
-    }
+    }*/
 
     @PostMapping
     public User createNewUser(@Valid @RequestBody User user) {
         return userService.createNewUser(user);
     }
 
-    @PutMapping
+    /*@PutMapping
     public User updateExistingUser(@Valid @RequestBody User user) {
         return userService.updateExistingUser(user);
-    }
+    }*/
 
     @PutMapping("/{id}/friends/{friendId}")
     public void addFriend(@PathVariable int id, @PathVariable int friendId) throws NotFoundException {
         userService.addFriend(id, friendId);
     }
 
-    @DeleteMapping("/{id}/friends/{friendId}")
+    /*@DeleteMapping("/{id}/friends/{friendId}")
     public void removeFriend(@PathVariable int id, @PathVariable int friendId) {
         userService.removeFriend(id, friendId);
-    }
+    }*/
 
 }
