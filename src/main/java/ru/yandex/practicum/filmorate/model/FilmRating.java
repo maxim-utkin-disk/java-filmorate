@@ -13,7 +13,7 @@ public class FilmRating {
     @NotBlank
     private String name;
 
-    public FilmRating (Integer ratingId, String ratingName) {
+    public FilmRating(Integer ratingId, String ratingName) {
         this.id = ratingId;
         this.name = ratingName;
     }
