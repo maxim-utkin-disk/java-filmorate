@@ -42,7 +42,7 @@ public class Film {
    }
 
    public Film() {
-   };
+   }
 
     public Film(Integer id, String name, String description, LocalDate releaseDate, Integer duration, Integer ratingId, String ratingName) {
         this.id = id;
