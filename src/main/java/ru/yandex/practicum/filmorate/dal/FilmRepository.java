@@ -16,24 +16,24 @@ public class FilmRepository extends BaseRepository<Film>{
             "select f.film_id, f.film_name, f.description, f.release_date, f.duration, f.rating_id,  mfr.rating_name\n" +
                     "from films f left join mpa_film_ratings mfr \n" +
                     " on f.rating_id = mfr.rating_id";
-    private static final String FIND_BY_ID_QUERY = //"select film_id, film_name, description, release_date, duration, rating_id from films where film_id = ?";
+    private static final String FIND_BY_ID_QUERY =
             "select f.film_id, f.film_name, f.description, f.release_date, f.duration, f.rating_id,  mfr.rating_name\n" +
                     "from films f left join mpa_film_ratings mfr \n" +
                     " on f.rating_id = mfr.rating_id \n" +
                     " where f.film_id = ?";
     private static final String INSERT_QUERY = "insert into films(film_name, description, release_date, duration, rating_id) values(?, ?, ?, ?, ?)";
     private static final String UPDATE_QUERY = "update films f set film_name = ?, description = ?, release_date = ?, duration = ?, rating_id = ?  where f.film_id = ?";
-    private static final String CREATE_FILM_GENRE_QUERY = "insert into films_genres(film_id, genre_id) values(?, ?)";
+    private static final String CREATE_FILM_GENRE_QUERY = "merge into films_genres key(film_id, genre_id) values(?, ?)";
     private static final String ADD_LIKE_QUERY = "insert into films_likes(film_id, user_id) values(?, ?)";
     private static final String DEL_LIKE_QUERY = "delete from films_likes fl where fl.film_id = ? and fl.user_id = ?";
     private static final String GET_TOP_POP_FILMS_QUERY =
-            "select f.film_id, f.film_name, f.description, f.duration, f.rating_id, f.release_date, count(1) as likes_cnt\n" +
-                    "from films f,\n" +
-                    "\t films_likes fl\n" +
-                    "where fl.film_id = f.film_id\t \n" +
-                    "group by f.film_id, f.film_name, f.description, f.duration, f.rating_id, f.release_date\n" +
-                    "having count(1) >= ?\n" +
-                    "order by likes_cnt desc";
+            "select f.film_id, f.film_name, f.description, f.duration, f.release_date, " +
+                    " f.rating_id, (select mfr.rating_name from mpa_film_ratings mfr where mfr.rating_id =  f.rating_id) as rating_name, " +
+                    " count(1) as likes_cnt " +
+                    " from films f, films_likes fl " +
+                    " where fl.film_id = f.film_id " +
+                    " group by f.film_id, f.film_name, f.description, f.duration, f.rating_id, f.release_date " +
+                    " order by likes_cnt desc limit ?";
 
 
     public FilmRepository(JdbcTemplate jdbc, RowMapper<Film> mapper) {
@@ -91,6 +91,5 @@ public class FilmRepository extends BaseRepository<Film>{
         return findMany(GET_TOP_POP_FILMS_QUERY, count);
 
     }
-
 
 }

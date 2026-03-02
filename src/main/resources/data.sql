@@ -1,7 +1,8 @@
 set referential_integrity false;
 
-truncate table friendships  restart identity;
+truncate table friendships restart identity;
 truncate table films_likes restart identity;
+truncate table films_genres restart identity;
 truncate table users restart identity;
 truncate table films restart identity;
 

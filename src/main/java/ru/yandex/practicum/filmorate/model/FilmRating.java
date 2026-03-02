@@ -12,5 +12,10 @@ public class FilmRating {
     @NotNull
     @NotBlank
     private String name;
+
+    public FilmRating (Integer ratingId, String ratingName) {
+        this.id = ratingId;
+        this.name = ratingName;
+    }
 }
 

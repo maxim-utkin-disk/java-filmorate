@@ -91,6 +91,7 @@ public class DbFilmStorage extends FilmRepository implements FilmStorage {
         log.debug("Запрос из БД фильмов по id={}", filmId);
         Optional<Film> ofr = findById(filmId);
         if (ofr.isPresent()) {
+
             return ofr.get();
         } else {
             log.error("В текущих данных БД не найден фильм с id = {}", filmId);
@@ -120,6 +121,5 @@ public class DbFilmStorage extends FilmRepository implements FilmStorage {
         log.debug("Запрос TOP-{} популярных фильмов", count);
         return super.getTopPopularFilms(count);
     }
-
 
 }

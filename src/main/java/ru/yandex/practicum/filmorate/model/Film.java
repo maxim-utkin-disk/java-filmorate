@@ -9,7 +9,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -28,7 +30,8 @@ public class Film {
    private FilmRating mpa;
    @EqualsAndHashCode.Exclude
    private Set<Integer> likesList = new HashSet<>();
-   private Set<FilmGenre> genres = new HashSet<>();
+   private List<FilmGenre> genres = new ArrayList<FilmGenre>();
+
 
    public Film(Integer id, String name, String description, LocalDate releaseDate, Integer duration) {
       this.id = id;
@@ -46,10 +49,7 @@ public class Film {
         this.description = description;
         this.releaseDate = releaseDate;
         this.duration = duration;
-        FilmRating fr = new FilmRating();
-        fr.setId(ratingId);
-        fr.setName(ratingName);
-        this.mpa = fr;
+        this.setMpa(new FilmRating(ratingId, ratingName));
     }
 
    public void addLike(User user) {

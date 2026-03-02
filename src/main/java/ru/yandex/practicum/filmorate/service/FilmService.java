@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.FilmGenre;
@@ -14,7 +15,6 @@ import ru.yandex.practicum.filmorate.storage.FilmRatingStorage;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -38,11 +38,13 @@ public class FilmService {
     }
 
     public Film getFilmById(int filmId) {
-        return filmStorage.getFilmById(filmId);
+        Film film = filmStorage.getFilmById(filmId);
+        film.setGenres(filmGenreStorage.getGenresByFilm(film.getId()));
+        return film;
     }
 
-    public ArrayList<Film> getFilmsList() {
-        return filmStorage.getFilmsList();
+    public List<Film> getFilmsList() {
+        return filmStorage.getFilmsList().stream().peek(f -> f.setGenres(filmGenreStorage.getGenresByFilm(f.getId()))).toList();
     }
 
     private Comparator<Film> compareFilmsByLikesCount = Comparator.comparing(f -> f.getLikesList().size());
@@ -52,18 +54,34 @@ public class FilmService {
         if (count <= 0) {
             throw new ValidationException("Запрос TOP популярных фильмов в количестве " + count + " штук не имеет смысла!");
         }
-        return filmStorage.getTopPopularFilms(count);
+        return filmStorage.getTopPopularFilms(count).stream().peek(f -> f.setGenres(filmGenreStorage.getGenresByFilm(f.getId()))).toList();
     }
 
     public Film addNewFilm(Film film) {
-        FilmRating fr = filmRatingStorage.getFilmRatingById(film.getMpa().getId());
-        List<FilmGenre> lfg = filmGenreStorage.getFilmGenreList();
-        /*if ()*/
-        return filmStorage.addNewFilm(film);
+        try {
+            FilmRating fr = filmRatingStorage.getFilmRatingById(film.getMpa().getId());
+        } catch (Exception e) {
+            throw new NotFoundException(e.getMessage());
+        }
+
+        for(FilmGenre fgenre : film.getGenres()) {
+            try {
+                FilmGenre fg = filmGenreStorage.getFilmGenreById(fgenre.getId());
+            } catch (Exception e) {
+                throw new NotFoundException(e.getMessage());
+            }
+        }
+        film = filmStorage.addNewFilm(film);
+        film.setMpa(filmRatingStorage.getFilmRatingById(film.getMpa().getId()));
+        film.setGenres(filmGenreStorage.getGenresByFilm(film.getId()));
+        return film;
     }
 
     public Film updateExistingFilm(Film film) {
-        return filmStorage.updateExistingFilm(film);
+        film = filmStorage.updateExistingFilm(film);
+        film.setMpa(filmRatingStorage.getFilmRatingById(film.getMpa().getId()));
+        film.setGenres(filmGenreStorage.getGenresByFilm(film.getId()));
+        return film;
     }
 
     public void addLike(int filmId, int userId) {

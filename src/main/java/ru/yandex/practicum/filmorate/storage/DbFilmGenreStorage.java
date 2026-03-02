@@ -9,7 +9,9 @@ import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.model.FilmGenre;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @Repository
@@ -33,6 +35,10 @@ public class DbFilmGenreStorage extends FilmGenreRepository implements FilmGenre
             log.error("В текущих данных БД не найден жанр с id = {}", filmGenreId);
             throw new NotFoundException("В текущих данных БД не найден жанр с id = " + filmGenreId);
         }
+    }
+
+    public List<FilmGenre> getGenresByFilm(Integer filmId) {
+        return super.getGenresByFilm(filmId);
     }
 
 }
