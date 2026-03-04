@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.dal.FilmRepository;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @Slf4j
 @Repository
+@Component("DbFilmStorage")
 @Qualifier("dbFilmStorage")
 public class DbFilmStorage extends FilmRepository implements FilmStorage {
 
@@ -91,7 +93,6 @@ public class DbFilmStorage extends FilmRepository implements FilmStorage {
         log.debug("Запрос из БД фильмов по id={}", filmId);
         Optional<Film> ofr = findById(filmId);
         if (ofr.isPresent()) {
-
             return ofr.get();
         } else {
             log.error("В текущих данных БД не найден фильм с id = {}", filmId);
