@@ -40,14 +40,10 @@ public class FilmDbTest {
                 LocalDate.of(1970,1,1),
                 100,
                 1,
-                "G");
-        FilmGenre fg1 = new FilmGenre();
-        fg1.setId(1);
-        fg1.setName("Комедия");
-        FilmGenre fg3 = new FilmGenre();
-        fg3.setId(3);
-        fg3.setName("Мультфильм");
-        film4Test.setGenres(List.of(fg1, fg3));
+                "G",
+                "[{\"id\":1, \"name\":\"Комедия\"},{\"id\":2, \"name\":\"Драма\"},{\"id\":3, \"name\":\"Мультфильм\"}]"
+                );
+
     }
 
     @Test
@@ -72,7 +68,8 @@ public class FilmDbTest {
                LocalDate.of(1970,2,2),
                102,
                1,
-               "G")
+               "G",
+                       "[{\"id\":1, \"name\":\"Комедия\"},{\"id\":2, \"name\":\"Драма\"},{\"id\":3, \"name\":\"Мультфильм\"}]")
        );
         Film film3 = filmStorage.addNewFilm(
                 new Film(null,
@@ -81,7 +78,8 @@ public class FilmDbTest {
                         LocalDate.of(1970,3,3),
                         103,
                         1,
-                        "G")
+                        "G",
+                        "[{\"id\":1, \"name\":\"Комедия\"},{\"id\":2, \"name\":\"Драма\"},{\"id\":3, \"name\":\"Мультфильм\"}]")
         );
 
         List<Film> fl = filmStorage.getFilmsList();
@@ -98,7 +96,8 @@ public class FilmDbTest {
                 LocalDate.of(1970,2,2),
                 102,
                 2,
-                "PG"
+                "PG",
+                "[{\"id\":1, \"name\":\"Комедия\"},{\"id\":2, \"name\":\"Драма\"},{\"id\":3, \"name\":\"Мультфильм\"}]"
         );
         Film updResult = filmStorage.updateExistingFilm(updatedFilm);
 

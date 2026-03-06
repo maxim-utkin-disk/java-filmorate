@@ -15,6 +15,7 @@ import ru.yandex.practicum.filmorate.storage.FilmRatingStorage;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -38,13 +39,11 @@ public class FilmService {
     }
 
     public Film getFilmById(int filmId) {
-        Film film = filmStorage.getFilmById(filmId);
-        film.setGenres(filmGenreStorage.getGenresByFilm(film.getId()));
-        return film;
+        return filmStorage.getFilmById(filmId);
     }
 
     public List<Film> getFilmsList() {
-        return filmStorage.getFilmsList().stream().peek(f -> f.setGenres(filmGenreStorage.getGenresByFilm(f.getId()))).toList();
+        return filmStorage.getFilmsList();
     }
 
     private Comparator<Film> compareFilmsByLikesCount = Comparator.comparing(f -> f.getLikesList().size());
@@ -54,7 +53,7 @@ public class FilmService {
         if (count <= 0) {
             throw new ValidationException("Запрос TOP популярных фильмов в количестве " + count + " штук не имеет смысла!");
         }
-        return filmStorage.getTopPopularFilms(count).stream().peek(f -> f.setGenres(filmGenreStorage.getGenresByFilm(f.getId()))).toList();
+        return filmStorage.getTopPopularFilms(count);
     }
 
     public Film addNewFilm(Film film) {
@@ -64,13 +63,14 @@ public class FilmService {
             throw new NotFoundException(e.getMessage());
         }
 
-        for (FilmGenre fgenre : film.getGenres()) {
-            try {
-                FilmGenre fg = filmGenreStorage.getFilmGenreById(fgenre.getId());
-            } catch (Exception e) {
-                throw new NotFoundException(e.getMessage());
+        // однократное обращение к БД - запрос всех жанров
+        ArrayList<FilmGenre> fgAL = filmGenreStorage.getFilmGenreList();
+        for (FilmGenre filmGenre : film.getGenres()) {
+            if (!fgAL.stream().anyMatch(genreItem -> genreItem.getId() == filmGenre.getId())) {
+                throw new NotFoundException("Ошибка добавления фильма: жанр id = " + filmGenre.getId() + " не существует.");
             }
         }
+
         film = filmStorage.addNewFilm(film);
         film.setMpa(filmRatingStorage.getFilmRatingById(film.getMpa().getId()));
         film.setGenres(filmGenreStorage.getGenresByFilm(film.getId()));

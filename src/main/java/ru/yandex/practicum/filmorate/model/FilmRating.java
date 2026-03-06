@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.model;
 
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,7 +8,6 @@ import lombok.EqualsAndHashCode;
 public class FilmRating {
     @EqualsAndHashCode.Include
     private Integer id;
-    @NotNull
     @NotBlank
     private String name;
 
